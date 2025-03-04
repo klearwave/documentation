@@ -5,12 +5,14 @@ on:
     branches:
       - main
 
+#
 # TODO: proper tagged release.  for now, we just want to publish when
 #       we push to the main branch (see above).
 # on:
 #   push:
 #     tags:
 #       - '*'
+#
 
 jobs:
   deploy:
