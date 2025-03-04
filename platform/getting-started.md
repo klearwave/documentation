@@ -11,7 +11,7 @@ followon operations.  These operations include such things as provisioning platf
 
 The following describes the flow for account initialization:
 
-![init-account](design/init-account.drawio.svg)
+![init-account](images/init-account.drawio.svg)
 
 1. For the initial step, we expect you to configure authentication to your specific cloud.  We will 
 use your initial credentials to create additional permissions that we use in followon operations.
@@ -41,6 +41,7 @@ looks like the below:
       supportLevel: community
       allowedRoles: []
     ```
+
 
 1. Once a configuration has been created and modified to the user liking, the configuration can then
 be used to initialize the AWS account.  It is important to note that the local user authentication 
