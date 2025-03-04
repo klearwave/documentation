@@ -1,0 +1,56 @@
+site_name: Klearwave
+site_author: Klearwave
+site_description: Documentation for Klearwave
+repo_url: https://github.com/klearwave
+repo_name: klearwave
+
+nav:
+  - Home: 'index.md'
+  - Platform:
+    - Getting Started: 'platform/getting-started.md'
+    - Services:
+      - Info: 'submodules/service-info/docs/index.md'
+  - Developer:
+    - Home: 'developer/index.md'
+    - Database: 'developer/database.md'
+
+theme:
+  name: material
+  favicon: images/logo.ico
+  logo: images/logo.png
+  features:
+    - content.code.copy
+  palette:
+    - scheme: default
+      primary: blue
+      accent: blue
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+    - scheme: slate
+      primary: blue
+      accent: blue
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+
+plugins:
+    - search
+
+extra:
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/klearwave
+
+markdown_extensions:
+  - admonition
+  - attr_list
+  - pymdownx.details
+  - pymdownx.highlight:
+      linenums: true
+  - pymdownx.superfences
+  - pymdownx.tabbed
+  - toc:
+      permalink: true
+
+copyright: Copyright &copy; 2025 Klearwave

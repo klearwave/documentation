@@ -1,0 +1,28 @@
+---
+name: Docs
+on:
+  push:
+    branches:
+      - main
+
+# TODO: proper tagged release.  for now, we just want to publish when
+#       we push to the main branch (see above).
+# on:
+#   push:
+#     tags:
+#       - '*'
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Submodules
+        run: make submodules
+        
+      - name: Make Documentaiton
+        run: make release

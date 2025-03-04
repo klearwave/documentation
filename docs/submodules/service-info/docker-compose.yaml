@@ -1,0 +1,60 @@
+version: '3.8'
+services:
+  #
+  # underlying database
+  #   NOTE: we should use version compatible versions with upstream AWS RDS instances
+  #
+  db:
+    container_name: db
+    image: postgres:16.6-bullseye
+    restart: always
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    ports:
+      - '5432:5432'
+  
+  #
+  # migrations
+  #   NOTE: ensure this is set to not restart
+  #   NOTE: we need to sleep for a period of time until the postgres container is ready
+  #
+  migrations:
+    container_name: migrations
+    entrypoint:
+      - "sh"
+      - "-c"
+      - "sleep 5 && /bin/goose up"
+    image: ghcr.io/klearwave/service-info:unstable
+    restart: no
+    depends_on:
+      - db
+    environment:
+      GOOSE_DRIVER: postgres
+      GOOSE_MIGRATION_DIR: /migrations
+      GOOSE_DBSTRING: postgres://postgres:postgres@db:5432/postgres
+    links:
+      - db
+
+  #
+  # api
+  #
+  api:
+    container_name: api
+    entrypoint:
+      - service
+    image: ghcr.io/klearwave/service-info:unstable
+    restart: always
+    depends_on:
+      - db
+      - migrations
+    ports:
+      - 8888:8888
+    environment:
+      DB_HOST: db
+      DB_PORT: 5432
+      DB_USERNAME: postgres
+      DB_PASSWORD: postgres
+      DB_NAME: postgres
+    links:
+      - db
