@@ -21,6 +21,9 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: Setup Python
+        run: make virtualenv
+
       - name: Setup Submodules
         run: make submodules
         
