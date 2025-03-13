@@ -22,6 +22,8 @@ for REPO in $SUBMODULES; do
     fi
 
     git submodule update --init --recursive
+    cd $DIR
+    git pull
 done
 
 if [[ "${COMMIT}" == "true" ]]; then
