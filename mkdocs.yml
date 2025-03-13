@@ -1,6 +1,7 @@
 site_name: Klearwave
 site_author: Klearwave
 site_description: Documentation for Klearwave
+site_url: https://docs.klearwave.io
 repo_url: https://github.com/klearwave
 repo_name: klearwave
 
