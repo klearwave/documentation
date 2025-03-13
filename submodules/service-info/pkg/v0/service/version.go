@@ -2,18 +2,11 @@ package service
 
 import (
 	"context"
-	"errors"
-	"fmt"
 	"net/http"
-	"regexp"
 
+	"github.com/klearwave/service-info/pkg/errors"
 	"github.com/klearwave/service-info/pkg/models"
 	modelsv0 "github.com/klearwave/service-info/pkg/v0/models"
-)
-
-var (
-	ErrMissingVersionId = errors.New("missing version_id parameter")
-	ErrInvalidVersionId = errors.New("invalid version id")
 )
 
 // CreateVersion defines the service for creating a new version and storing in a database.
@@ -21,25 +14,11 @@ func (service *Service) CreateVersion(ctx context.Context, request *modelsv0.Ver
 	service.Database.Lock.Lock()
 	defer service.Database.Lock.Unlock()
 
-	if request.Body.VersionId == "" {
-		return nil, ErrMissingVersionId
-	}
-
-	// validate that we have a valid semantic version
-	if err := validateSemanticVersioning(request.Body.VersionId); err != nil {
-		return nil, fmt.Errorf("%s; %w", ErrInvalidVersionId, err)
-	}
-
-	// add 'v' prefix if missing
-	if request.Body.VersionId[0] != 'v' {
-		request.Body.VersionId = "v" + request.Body.VersionId
-	}
-
 	// create the version
 	response := &modelsv0.Version{}
 	response.FromRequest(&request.Body)
 
-	if err := service.Database.Create(response, "VersionId", "Latest"); err != nil {
+	if err := service.Database.Create(response); err != nil {
 		return nil, err
 	}
 
@@ -56,7 +35,7 @@ func (service *Service) GetVersion(ctx context.Context, request *modelsv0.Versio
 	response := &modelsv0.VersionResponse{Body: modelsv0.Version{}}
 
 	if request.VersionID == "" {
-		return nil, ErrMissingVersionId
+		return nil, errors.ErrMissingVersionId
 	}
 
 	if _, err := service.Database.FindBy("version_id", request.VersionID, &response.Body); err != nil {
@@ -97,7 +76,7 @@ func (service *Service) DeleteVersion(ctx context.Context, request *modelsv0.Ver
 	version := modelsv0.Version{}
 
 	if request.VersionID == "" {
-		return nil, ErrMissingVersionId
+		return nil, errors.ErrMissingVersionId
 	}
 
 	if _, err := service.Database.FindBy("version_id", request.VersionID, &version); err != nil {
@@ -131,18 +110,4 @@ func (service *Service) GetVersionContainerImages(ctx context.Context, request *
 	}
 
 	return response, nil
-}
-
-// validateSemanticVersioning checks if the given string matches semantic versioning syntax.
-// If the 'v' prefix is missing, it adds the prefix.
-func validateSemanticVersioning(version string) error {
-	// regular expression for semantic versioning with optional 'v' prefix
-	semverRegex := `^v?(\d+)\.(\d+)\.(\d+)(?:-([\da-zA-Z-]+(?:\.[\da-zA-Z-]+)*))?(?:\+([\da-zA-Z-]+(?:\.[\da-zA-Z-]+)*))?$`
-
-	re := regexp.MustCompile(semverRegex)
-	if !re.MatchString(version) {
-		return fmt.Errorf("invalid semantic version: %s", version)
-	}
-
-	return nil
 }

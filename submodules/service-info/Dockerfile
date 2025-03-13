@@ -4,7 +4,7 @@
 FROM golang:1.23-alpine AS build
 WORKDIR /src
 COPY . .
-RUN CGO_ENABLED=0 go build -o service
+RUN CGO_ENABLED=0 go build -o service ./pkg/cmd
 RUN export GOBIN=/src && go install github.com/pressly/goose/v3/cmd/goose@latest
 
 #
