@@ -18,7 +18,7 @@
       
       
       <link rel="icon" href="../../images/logo.ico">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.7">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.8">
     
     
       
@@ -517,6 +517,54 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="Design Standards">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#migrations-goose" class="md-nav__link">
+    <span class="md-ellipsis">
+      Migrations: Goose
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#code-gorm" class="md-nav__link">
+    <span class="md-ellipsis">
+      Code: GORM
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#code-validation-and-mutation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Code: Validation and Mutation
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Code: Validation and Mutation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#code-validation-exceptions" class="md-nav__link">
+    <span class="md-ellipsis">
+      Code: Validation Exceptions
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
     </ul>
@@ -568,6 +616,54 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="Design Standards">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#migrations-goose" class="md-nav__link">
+    <span class="md-ellipsis">
+      Migrations: Goose
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#code-gorm" class="md-nav__link">
+    <span class="md-ellipsis">
+      Code: GORM
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#code-validation-and-mutation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Code: Validation and Mutation
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Code: Validation and Mutation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#code-validation-exceptions" class="md-nav__link">
+    <span class="md-ellipsis">
+      Code: Validation Exceptions
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
     </ul>
@@ -593,30 +689,10 @@
 <p>This page contains the agreed upon developer standards as it pertains to
 databases.</p>
 <h2 id="design-standards">Design Standards<a class="headerlink" href="#design-standards" title="Permanent link">&para;</a></h2>
-<ol>
-<li><strong>GORM for database models:</strong> <a href="https://gorm.io/docs/">GORM</a> should be used in conjunction with Go structs
-in order to tie database models to their underlying records:</li>
-</ol>
-<blockquote>
-<p>Example struct with GORM:</p>
-</blockquote>
-<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
-<span class="normal">2</span>
-<span class="normal">3</span>
-<span class="normal">4</span>
-<span class="normal">5</span>
-<span class="normal">6</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="c1">// ContainerImageBase is the base set of fields for all ContainerImage objects.</span>
-<span class="kd">type</span><span class="w"> </span><span class="nx">ContainerImageBase</span><span class="w"> </span><span class="kd">struct</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="nx">Image</span><span class="w">      </span><span class="kt">string</span><span class="w"> </span><span class="s">`json:&quot;image,omitempty&quot; example:&quot;ghcr.io/klearwave/service-info:latest&quot; doc:&quot;Full container image including the registry, repository and tag.&quot;`</span>
-<span class="w">    </span><span class="nx">SHA256Sum</span><span class="w">  </span><span class="kt">string</span><span class="w"> </span><span class="s">`json:&quot;sha256sum,omitempty&quot; example:&quot;2d4b92db6941294f731cfe7aeca336eb8dba279171c0e6ceda32b9f018f8429d&quot; doc:&quot;SHA256 sum of the container image.&quot;`</span>
-<span class="w">    </span><span class="nx">CommitHash</span><span class="w"> </span><span class="kt">string</span><span class="w"> </span><span class="s">`json:&quot;commit_hash,omitempty&quot; example:&quot;631af50a8bbc4b5e69dab77d51a3a1733550fe8d&quot; doc:&quot;Commit hash related to the image.&quot;`</span>
-<span class="p">}</span>
-</code></pre></div></td></tr></table></div>
-<ol>
-<li><strong>Goose for database migrations:</strong> <a href="https://github.com/pressly/goose">Goose</a> should be used in conjunction 
+<h3 id="migrations-goose">Migrations: Goose<a class="headerlink" href="#migrations-goose" title="Permanent link">&para;</a></h3>
+<p><a href="https://github.com/pressly/goose">Goose</a> should be used in conjunction 
 with SQL files in order to achieve database migrations.  Migrations should exist at the top level
-of a repository in a <code>migrations/</code> folder.</li>
-</ol>
+of a repository in a <code>migrations/</code> folder.</p>
 <blockquote>
 <p>Example <code>migrations/</code> directory:</p>
 </blockquote>
@@ -629,7 +705,7 @@ service-info/migrations/
 └──<span class="w"> </span>000002_create_container_images_table.sql
 </code></pre></div></td></tr></table></div>
 <blockquote>
-<p>Example <code>migration.sql</code> file:</p>
+<p><strong>Example <code>migration.sql</code> file</strong>:</p>
 </blockquote>
 <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
 <span class="normal"> 2</span>
@@ -643,29 +719,49 @@ service-info/migrations/
 <span class="normal">10</span>
 <span class="normal">11</span>
 <span class="normal">12</span>
-<span class="normal">13</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="c1">-- +goose Up</span>
+<span class="normal">13</span>
+<span class="normal">14</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="c1">-- +goose Up</span>
 <span class="k">CREATE</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="k">versions</span><span class="w"> </span><span class="p">(</span>
 <span class="w">    </span><span class="n">id</span><span class="w"> </span><span class="nb">SERIAL</span><span class="w"> </span><span class="k">PRIMARY</span><span class="w"> </span><span class="k">KEY</span><span class="p">,</span>
 <span class="w">    </span><span class="n">version_id</span><span class="w"> </span><span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">32</span><span class="p">)</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">NULL</span><span class="w"> </span><span class="k">UNIQUE</span><span class="p">,</span>
-<span class="w">    </span><span class="n">latest</span><span class="w"> </span><span class="nb">BOOLEAN</span><span class="w"> </span><span class="k">DEFAULT</span><span class="w"> </span><span class="k">FALSE</span><span class="p">,</span>
+<span class="w">    </span><span class="k">stable</span><span class="w"> </span><span class="nb">BOOLEAN</span><span class="w"> </span><span class="k">DEFAULT</span><span class="w"> </span><span class="k">FALSE</span><span class="p">,</span>
 <span class="w">    </span><span class="n">x_version</span><span class="w"> </span><span class="nb">INT</span><span class="p">,</span>
 <span class="w">    </span><span class="n">y_version</span><span class="w"> </span><span class="nb">INT</span><span class="p">,</span>
 <span class="w">    </span><span class="n">z_version</span><span class="w"> </span><span class="nb">INT</span><span class="p">,</span>
-<span class="w">    </span><span class="n">created_at</span><span class="w"> </span><span class="k">TIMESTAMP</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">NULL</span><span class="w"> </span><span class="k">DEFAULT</span><span class="w"> </span><span class="k">CURRENT_TIMESTAMP</span>
+<span class="w">    </span><span class="n">created_at</span><span class="w"> </span><span class="k">TIMESTAMP</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">NULL</span><span class="w"> </span><span class="k">DEFAULT</span><span class="w"> </span><span class="k">CURRENT_TIMESTAMP</span><span class="p">,</span>
+<span class="w">    </span><span class="n">updated_at</span><span class="w"> </span><span class="k">TIMESTAMP</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">NULL</span><span class="w"> </span><span class="k">DEFAULT</span><span class="w"> </span><span class="k">CURRENT_TIMESTAMP</span><span class="p">,</span>
 <span class="p">);</span>
 
 <span class="c1">-- +goose Down</span>
 <span class="k">DROP</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="k">versions</span><span class="p">;</span>
 </code></pre></div></td></tr></table></div>
-<ol>
-<li><strong>Code for validation and mutation:</strong> as opposed to writing complex functions 
+<h3 id="code-gorm">Code: GORM<a class="headerlink" href="#code-gorm" title="Permanent link">&para;</a></h3>
+<p><a href="https://gorm.io/docs/">GORM</a> should be used in conjunction with Go structs
+in order to tie database models to their underlying records:</p>
+<blockquote>
+<p><strong>Example struct with GORM</strong>:</p>
+</blockquote>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span>
+<span class="normal">5</span>
+<span class="normal">6</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="c1">// ContainerImageBase is the base set of fields for all ContainerImage objects.</span>
+<span class="kd">type</span><span class="w"> </span><span class="nx">ContainerImageBase</span><span class="w"> </span><span class="kd">struct</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">Image</span><span class="w">      </span><span class="kt">string</span><span class="w"> </span><span class="s">`json:&quot;image,omitempty&quot; example:&quot;ghcr.io/klearwave/service-info:latest&quot; doc:&quot;Full container image including the registry, repository and tag.&quot;`</span>
+<span class="w">    </span><span class="nx">SHA256Sum</span><span class="w">  </span><span class="kt">string</span><span class="w"> </span><span class="s">`json:&quot;sha256sum,omitempty&quot; example:&quot;2d4b92db6941294f731cfe7aeca336eb8dba279171c0e6ceda32b9f018f8429d&quot; doc:&quot;SHA256 sum of the container image.&quot;`</span>
+<span class="w">    </span><span class="nx">CommitHash</span><span class="w"> </span><span class="kt">string</span><span class="w"> </span><span class="s">`json:&quot;commit_hash,omitempty&quot; example:&quot;631af50a8bbc4b5e69dab77d51a3a1733550fe8d&quot; doc:&quot;Commit hash related to the image.&quot;`</span>
+<span class="p">}</span>
+</code></pre></div></td></tr></table></div>
+<h3 id="code-validation-and-mutation">Code: Validation and Mutation<a class="headerlink" href="#code-validation-and-mutation" title="Permanent link">&para;</a></h3>
+<p>Use Golang as opposed to writing complex functions 
 in SQL, we should use proper code to validate inputs before inserting into the 
 database.  Additionally, we should also use proper code to mutate any incoming 
-database records.</li>
-</ol>
+database records.</p>
 <blockquote>
-<p>Example (Do not do this):</p>
+<p><strong>Example (Do not do this)</strong>:</p>
 </blockquote>
+<p>Here is a sample SQL file with complex trigger functions (logic in SQL):</p>
 <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
 <span class="normal"> 2</span>
 <span class="normal"> 3</span>
@@ -691,8 +787,9 @@ database records.</li>
 <span class="c1">-- +goose StatementEnd</span>
 </code></pre></div></td></tr></table></div>
 <blockquote>
-<p>Example (Do this instead):</p>
+<p><strong>Example (Do this instead)</strong>:</p>
 </blockquote>
+<p>Here is the same logic, written in code:</p>
 <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
 <span class="normal">2</span>
 <span class="normal">3</span>
@@ -714,7 +811,38 @@ database records.</li>
 <p>The above shows an example of a trigger function in SQL for validation.  While this does 
 enforce the data inserted closest to where it lives, it creates unneeded complexity and 
 additional technical debt (need to understand writing of SQL functions and the codebase 
-that calls it) that we want to avoid.</p>
+that calls it) that we want to avoid.  Additionally, services that run proper code are
+much easier to scale horizontally, so it is better to use resources outside of the database 
+in proper code than to stuff it all in the database.</p>
+<p>However, there is are exceptions to the rule...</p>
+<h4 id="code-validation-exceptions">Code: Validation Exceptions<a class="headerlink" href="#code-validation-exceptions" title="Permanent link">&para;</a></h4>
+<ol>
+<li>
+<p><strong>Length Validation</strong>: In the instance of length validation, it is better to enforce length validation at the 
+database level to avoid the need to validate in code and to enforce the data integrity 
+of what is stored in the database.  This is specific to string data which can be of 
+variable length.  We should look to implement string length validation in one of two manners:</p>
+</li>
+<li>
+<p><strong>Variable Length</strong>: for variable length strings (strings which do not have a predetermined length), we 
+should use the <code>VARCHAR(n)</code> column type:</p>
+</li>
+</ol>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="w">    </span><span class="n">version_id</span><span class="w"> </span><span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">32</span><span class="p">)</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">NULL</span><span class="w"> </span><span class="k">UNIQUE</span><span class="p">,</span>
+</code></pre></div></td></tr></table></div>
+<p>In the above example, a <code>version_id</code> can be different lengths (e.g. <code>v0.1.0</code> versue <code>v0.1.10</code>), so we 
+should use the <code>VARCHAR(n)</code> type.  This allows the database to not preallocate space and validates 
+that the data only allows a specific length (32).</p>
+<ul>
+<li><strong>Non-Variable Length</strong>: for string data that has a pre-determined length, we should use the 
+<code>CHAR(n)</code> column type:</li>
+</ul>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="w">    </span><span class="n">sha256_sum</span><span class="w"> </span><span class="nb">CHAR</span><span class="p">(</span><span class="mi">64</span><span class="p">)</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">NULL</span><span class="p">,</span>
+<span class="w">    </span><span class="n">commit_hash</span><span class="w"> </span><span class="nb">CHAR</span><span class="p">(</span><span class="mi">40</span><span class="p">)</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">NULL</span><span class="p">,</span>
+</code></pre></div></td></tr></table></div>
+<p>In the above example, a <code>sha256_sum</code> and <code>commit_hash</code> have pre-determined lengths and will always 
+only be those lengths, so we use the <code>CHAR(n)</code> to preallocate the space.</p>
 
 
 
