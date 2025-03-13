@@ -1,3 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+    <url>
+         <loc>https://docs.klearwave.io/</loc>
+         <lastmod>2025-03-13</lastmod>
+    </url>
+    <url>
+         <loc>https://docs.klearwave.io/developer/</loc>
+         <lastmod>2025-03-13</lastmod>
+    </url>
+    <url>
+         <loc>https://docs.klearwave.io/developer/database/</loc>
+         <lastmod>2025-03-13</lastmod>
+    </url>
+    <url>
+         <loc>https://docs.klearwave.io/platform/getting-started/</loc>
+         <lastmod>2025-03-13</lastmod>
+    </url>
+    <url>
+         <loc>https://docs.klearwave.io/submodules/service-info/docs/</loc>
+         <lastmod>2025-03-13</lastmod>
+    </url>
 </urlset>
