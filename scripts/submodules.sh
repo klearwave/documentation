@@ -1,9 +1,13 @@
 #!/usr/bin/env bash
 
 COMMIT="${COMMIT:-false}"
+SUBMODULES_DIR='docs/submodules'
 
-cd docs/submodules
-. ./config
+mkdir -p ${SUBMODULES_DIR}
+
+# NOTE: assumes this is run from the Make target at the root of the repo
+SUBMODULES=$(grep 'url =' .gitmodules | awk '{print $NF}')
+cd ${SUBMODULES_DIR}
 
 for REPO in $SUBMODULES; do
     DIR=$(echo $REPO | awk -F'/' '{print $NF}' | awk -F'.git' '{print $1}')
