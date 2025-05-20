@@ -11,6 +11,7 @@ nav:
     - Getting Started: 'platform/getting-started.md'
     - Services:
       - Info: 'submodules/service-info/docs/index.md'
+    - Glossary: 'platform/glossary.md'
   - Developer:
     - Home: 'developer/index.md'
     - Database: 'developer/database.md'
