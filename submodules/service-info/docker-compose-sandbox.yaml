@@ -1,0 +1,92 @@
+version: '3.8'
+services:
+  #
+  # underlying database
+  #   NOTE: we should use version compatible versions with upstream AWS RDS instances
+  #   NOTE: usage of the 'aws rds describe-db-engine-versions --engine postgres' will give these versions.
+  #
+  db:
+    container_name: db
+    image: postgres:16.8-bullseye
+    pull_policy: always
+    restart: always
+    environment:
+      - POSTGRES_USER=${DB_USERNAME}
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+      - POSTGRES_DB=${DB_NAME}
+    healthcheck:
+      test:
+        - "CMD"
+        - "pg_isready"
+        - "-U"
+        - "${DB_USERNAME}"
+      interval: 5s
+      retries: 5
+      start_period: 10s
+
+  #
+  # migrations
+  #   NOTE: ensure this is set to not restart
+  #   NOTE: we need to sleep for a period of time until the postgres container is ready
+  #
+  migrations:
+    container_name: migrations
+    image: ghcr.io/klearwave/service-info:${SERVICE_VERSION}
+    entrypoint:
+      - "/bin/service"
+      - "migrate"
+      - "up"
+      - "--directory=/migrations"
+      - "--db-host=db"
+      - "--db-username=${DB_USERNAME}"
+      - "--db-password=${DB_PASSWORD}"
+      - "--db-name=${DB_NAME}"
+    pull_policy: always
+    restart: no
+    depends_on:
+      db:
+        condition: service_healthy
+    links:
+      - db
+
+  #
+  # api
+  #
+  api:
+    container_name: api
+    image: ghcr.io/klearwave/service-info:${SERVICE_VERSION}
+    entrypoint:
+      - "/bin/service"
+      - "run"
+    pull_policy: always
+    restart: always
+    depends_on:
+      - db
+      - migrations
+    ports:
+      - 8443:8443
+    environment:
+      DB_HOST: db
+      DB_PORT: 5432
+      DB_USERNAME: ${DB_USERNAME}
+      DB_PASSWORD: ${DB_PASSWORD}
+      DB_NAME: ${DB_NAME}
+    links:
+      - db
+    configs:
+      - source: tls_crt
+        target: /tls.crt
+      - source: tls_key
+        target: /tls.key
+    healthcheck:
+      test:
+        - "CMD"
+        - "/bin/service"
+        - "health"
+        - "--port=8443"
+        - "--insecure"
+configs:
+  tls_crt:
+    file: /volume1/docker/projects/klearwave-service-info/tls.crt
+  tls_key:
+    file: /volume1/docker/projects/klearwave-service-info/tls.key

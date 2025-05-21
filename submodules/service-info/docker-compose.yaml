@@ -3,17 +3,28 @@ services:
   #
   # underlying database
   #   NOTE: we should use version compatible versions with upstream AWS RDS instances
+  #   NOTE: usage of the 'aws rds describe-db-engine-versions --engine postgres' will give these versions.
   #
   db:
     container_name: db
-    image: postgres:16.6-bullseye
+    image: postgres:16.8-bullseye
     restart: always
     environment:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
+    healthcheck:
+      test: 
+        - "CMD"
+        - "pg_isready"
+        - "-U"
+        - "postgres"
+      interval: 5s
+      retries: 5
+      start_period: 10s
+    # NOTE: expose port 5432 in dev for ease of querying database.
     ports:
       - '5432:5432'
-  
+
   #
   # migrations
   #   NOTE: ensure this is set to not restart
@@ -21,18 +32,17 @@ services:
   #
   migrations:
     container_name: migrations
-    entrypoint:
-      - "sh"
-      - "-c"
-      - "sleep 5 && /bin/goose up"
     image: ghcr.io/klearwave/service-info:unstable
+    entrypoint:
+      - "/bin/service"
+      - "migrate"
+      - "up"
+      - "--directory=/migrations"
+      - "--db-host=db"
     restart: no
     depends_on:
-      - db
-    environment:
-      GOOSE_DRIVER: postgres
-      GOOSE_MIGRATION_DIR: /migrations
-      GOOSE_DBSTRING: postgres://postgres:postgres@db:5432/postgres
+      db:
+        condition: service_healthy
     links:
       - db
 
@@ -41,9 +51,10 @@ services:
   #
   api:
     container_name: api
-    entrypoint:
-      - service
     image: ghcr.io/klearwave/service-info:unstable
+    entrypoint:
+      - "/bin/service"
+      - "run"
     restart: always
     depends_on:
       - db
@@ -58,3 +69,14 @@ services:
       DB_NAME: postgres
     links:
       - db
+    healthcheck:
+      test:
+        - "CMD"
+        - "/bin/service"
+        - "health"
+        - "--port=8888"
+        - "--tls=false"
+      interval: 120s
+      retries: 3
+      start_period: 10s
+      timeout: 5s
