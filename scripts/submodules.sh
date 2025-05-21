@@ -11,9 +11,11 @@ cd ${SUBMODULES_DIR}
 
 for REPO in $SUBMODULES; do
     DIR=$(echo $REPO | awk -F'/' '{print $NF}' | awk -F'.git' '{print $1}')
+    echo "ensuring submodule for ${REPO} exists in ${DIR}..."
     if [[ ! -d ${DIR} ]]; then
         # add submodule if it does not exist
-        git submodule add ${REPO} ${DIR}
+        echo "adding submodule ${REPO} to ${DIR}..."
+        git submodule add --force ${REPO} ${DIR}
         git add ${DIR}
 
         if [[ "${COMMIT}" == "true" ]]; then
@@ -21,9 +23,11 @@ for REPO in $SUBMODULES; do
         fi
     fi
 
+    echo "updating submodule for ${REPO} in ${DIR}..."
     git submodule update --init --recursive
-    cd $DIR
+    pushd $DIR
     git pull
+    popd
 done
 
 if [[ "${COMMIT}" == "true" ]]; then

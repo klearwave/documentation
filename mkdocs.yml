@@ -9,6 +9,9 @@ nav:
   - Home: 'index.md'
   - Platform:
     - Getting Started: 'platform/getting-started.md'
+    - Capabilities:
+      - Certificates: 'submodules/operators-capability/docs/certificates.md'
+      - Identity: 'submodules/operators-capability/docs/identity.md'
     - Services:
       - Info: 'submodules/service-info/docs/index.md'
     - Glossary: 'platform/glossary.md'

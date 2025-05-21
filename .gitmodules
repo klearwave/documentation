@@ -1,3 +1,7 @@
 [submodule "docs/submodules/service-info"]
 	path = docs/submodules/service-info
 	url = https://github.com/klearwave/service-info.git
+
+[submodule "docs/submodules/operators-capability"]
+	path = docs/submodules/operators-capability
+	url = https://github.com/klearwave/operators-capability.git
